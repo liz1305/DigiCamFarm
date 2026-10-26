@@ -1,24 +1,26 @@
 package com.example.digicamfarm.ui.components
 
-import androidx.compose.material.icons.Icons
+import androidx.annotation.DrawableRes
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
+import com.example.digicamfarm.R
 import com.example.digicamfarm.ui.navigation.Routes
 
-data class NavItem(val route: String, val label: String, val icon: ImageVector)
+data class NavItem(val route: String, val label: String, @DrawableRes val icon: Int)
 
 val bottomItems = listOf(
-    NavItem(Routes.HOME, "Home", Icons.Filled.Home),
-    NavItem(Routes.MARKETS, "Markets", Icons.AutoMirrored.Filled.TrendingUp),
-    NavItem(Routes.WEATHER, "Weather", Icons.Filled.WbSunny),
-    NavItem(Routes.FARM, "Farm", Icons.Filled.Eco),
-    NavItem(Routes.LOANS, "Loans", Icons.Filled.AccountBalanceWallet),
+    NavItem(Routes.HOME, "Home", R.drawable.ic_home),
+    NavItem(Routes.MARKETS, "Markets", R.drawable.ic_market),
+    NavItem(Routes.WEATHER, "Weather", R.drawable.ic_weather),
+    NavItem(Routes.FARM, "Farm", R.drawable.ic_farm),
+    NavItem(Routes.LOANS, "Loans", R.drawable.ic_loan),
 )
 
 @Composable
@@ -34,8 +36,15 @@ fun BottomBar(nav: NavController, current: String?) {
                         restoreState = true
                     }
                 },
-                icon = { Icon(item.icon, contentDescription = item.label) },
-                label = { Text(item.label) }
+                icon = { Icon(painterResource(item.icon), contentDescription = item.label) },
+                label = { Text(item.label) },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = Color(0xFF1F8236),
+                    selectedTextColor = Color(0xFF1F8236),
+                    unselectedIconColor = Color.Black,
+                    unselectedTextColor = Color.Black,
+                    indicatorColor = Color.Transparent
+                )
             )
         }
     }
