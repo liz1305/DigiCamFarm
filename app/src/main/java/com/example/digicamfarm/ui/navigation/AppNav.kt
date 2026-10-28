@@ -15,8 +15,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.digicamfarm.ui.components.BottomBar
 import com.example.digicamfarm.ui.components.bottomItems
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
+import com.example.digicamfarm.ui.screens.WelcomeScreen
 
 @Composable
 fun Placeholder(name: String, onNext: (() -> Unit)? = null) {
@@ -36,13 +38,21 @@ fun AppNav() {
     val current = nav.currentBackStackEntryAsState().value?.destination?.route
     val showBar = bottomItems.any { it.route == current }
 
-    Scaffold(bottomBar = { if (showBar) BottomBar(nav, current) }) { padding ->
+    Scaffold(
+        bottomBar = { if (showBar) BottomBar(nav, current) },
+        contentWindowInsets = WindowInsets(0, 0, 0, 0)
+    ) { padding ->
         NavHost(
             navController = nav,
             startDestination = Routes.WELCOME,
             modifier = Modifier.padding(padding)
         ) {
-            composable(Routes.WELCOME) { Placeholder("Welcome") { nav.navigate(Routes.LOGIN) } }
+            composable(Routes.WELCOME) {
+                WelcomeScreen(
+                    onGetStarted = { nav.navigate(Routes.REGISTER) },
+                    onLogin = { nav.navigate(Routes.LOGIN) }
+                )
+            }
             composable(Routes.LOGIN) { Placeholder("Login") { nav.navigate(Routes.HOME) } }
             composable(Routes.REGISTER) { Placeholder("Register") }
             composable(Routes.HOME) { Placeholder("Home") }
