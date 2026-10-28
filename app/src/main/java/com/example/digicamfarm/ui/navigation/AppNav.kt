@@ -1,5 +1,6 @@
 package com.example.digicamfarm.ui.navigation
 
+import LoginScreen
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -53,7 +54,14 @@ fun AppNav() {
                     onLogin = { nav.navigate(Routes.LOGIN) }
                 )
             }
-            composable(Routes.LOGIN) { Placeholder("Login") { nav.navigate(Routes.HOME) } }
+            composable(Routes.LOGIN) {
+                LoginScreen(
+                    onSignIn = {
+                        nav.navigate(Routes.HOME) { popUpTo(Routes.WELCOME) { inclusive = true } }
+                    },
+                    onSignUp = { nav.navigate(Routes.REGISTER) }
+                )
+            }
             composable(Routes.REGISTER) { Placeholder("Register") }
             composable(Routes.HOME) { Placeholder("Home") }
             composable(Routes.MARKETS) { Placeholder("Markets") }
