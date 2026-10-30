@@ -1,7 +1,9 @@
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -14,11 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.digicamfarm.R
 
 private val AppGreen = Color(0xFF1F8236)
 private val FieldGray = Color(0xFFE6E8E6)
@@ -39,7 +43,11 @@ fun LoginScreen(onSignIn: () -> Unit, onSignUp: () -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(Modifier.height(48.dp))
-        Text("LOGO", fontSize = 40.sp, fontWeight = FontWeight.ExtraBold, color = Color(0xFFE5A93B))
+        Image(
+            painter = painterResource(R.drawable.ic_logo),
+            contentDescription = "Logo",
+            modifier = Modifier.height(48.dp)
+        )
         Spacer(Modifier.height(24.dp))
         Text("Welcome back", fontSize = 26.sp, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(8.dp))
@@ -82,15 +90,23 @@ fun LoginScreen(onSignIn: () -> Unit, onSignUp: () -> Unit) {
 
         Spacer(Modifier.height(20.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
-            listOf("G", "A", "f").forEach { letter ->
+            listOf(
+                R.drawable.ic_google,
+                R.drawable.ic_apple,
+                R.drawable.ic_facebook
+            ).forEach { icon ->
                 Box(
                     modifier = Modifier
                         .size(56.dp)
-                        .clip(androidx.compose.foundation.shape.CircleShape)
+                        .clip(CircleShape)
                         .background(FieldGray),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(letter, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                    Image(
+                        painter = painterResource(icon),
+                        contentDescription = null,
+                        modifier = Modifier.size(28.dp)
+                    )
                 }
             }
         }
