@@ -29,7 +29,6 @@ private val FieldGray = Color(0xFFE6E8E6)
 
 @Composable
 fun LoginScreen(onSignIn: () -> Unit, onSignUp: () -> Unit) {
-    // These remember what the user types
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
