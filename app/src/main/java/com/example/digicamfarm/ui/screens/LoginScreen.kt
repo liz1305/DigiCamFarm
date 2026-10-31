@@ -23,14 +23,16 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.digicamfarm.R
+import com.example.digicamfarm.viewmodel.AuthViewModel
 
 private val AppGreen = Color(0xFF1F8236)
 private val FieldGray = Color(0xFFE6E8E6)
 
 @Composable
-fun LoginScreen(onSignIn: () -> Unit, onSignUp: () -> Unit) {
+fun LoginScreen(vm: AuthViewModel, onSignIn: () -> Unit, onSignUp: () -> Unit) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var error by remember { mutableStateOf<String?>(null) }
 
     Column(
         modifier = Modifier
@@ -70,9 +72,22 @@ fun LoginScreen(onSignIn: () -> Unit, onSignUp: () -> Unit) {
                 .clickable { /* later */ }
         )
 
+        error?.let {
+            Spacer(Modifier.height(12.dp))
+            Text(it, color = MaterialTheme.colorScheme.error, fontSize = 14.sp)
+        }
+
         Spacer(Modifier.height(24.dp))
         Button(
-            onClick = onSignIn,
+            onClick = {
+                if (email.isBlank() || password.isBlank()) {
+                    error = "Please enter your email and password."
+                } else {
+                    vm.login(email, password) { success ->
+                        if (success) onSignIn() else error = "Wrong email or password."
+                    }
+                }
+            },
             modifier = Modifier.fillMaxWidth().height(56.dp),
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(containerColor = AppGreen)

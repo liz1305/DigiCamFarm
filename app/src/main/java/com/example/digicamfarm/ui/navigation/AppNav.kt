@@ -60,6 +60,7 @@ fun AppNav() {
             }
             composable(Routes.LOGIN) {
                 LoginScreen(
+                    vm = authVm,
                     onSignIn = {
                         nav.navigate(Routes.HOME) { popUpTo(Routes.WELCOME) { inclusive = true } }
                     },
