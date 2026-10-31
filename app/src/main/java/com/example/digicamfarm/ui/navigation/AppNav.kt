@@ -19,7 +19,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.digicamfarm.ui.screens.WelcomeScreen
+import com.example.digicamfarm.viewmodel.AuthViewModel
+import com.example.digicamfarm.ui.screens.RegisterScreen
 
 @Composable
 fun Placeholder(name: String, onNext: (() -> Unit)? = null) {
@@ -36,6 +39,7 @@ fun Placeholder(name: String, onNext: (() -> Unit)? = null) {
 @Composable
 fun AppNav() {
     val nav = rememberNavController()
+    val authVm: AuthViewModel = viewModel()
     val current = nav.currentBackStackEntryAsState().value?.destination?.route
     val showBar = bottomItems.any { it.route == current }
 
@@ -62,7 +66,15 @@ fun AppNav() {
                     onSignUp = { nav.navigate(Routes.REGISTER) }
                 )
             }
-            composable(Routes.REGISTER) { Placeholder("Register") }
+            composable(Routes.REGISTER) {
+                RegisterScreen(
+                    vm = authVm,
+                    onRegistered = {
+                        nav.navigate(Routes.HOME) { popUpTo(Routes.WELCOME) { inclusive = true } }
+                    },
+                    onLogin = { nav.navigate(Routes.LOGIN) }
+                )
+            }
             composable(Routes.HOME) { Placeholder("Home") }
             composable(Routes.MARKETS) { Placeholder("Markets") }
             composable(Routes.WEATHER) { Placeholder("Weather") }
@@ -72,3 +84,4 @@ fun AppNav() {
         }
     }
 }
+
